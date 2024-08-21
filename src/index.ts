@@ -1,4 +1,3 @@
-import fastify from 'fastify';
 import dotenv from "dotenv";
 import buildFastify from './appFastify';
 

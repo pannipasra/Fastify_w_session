@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import routes from './routes';
 
 
 function buildFastify(opts = {}) {
@@ -30,8 +31,10 @@ function buildFastify(opts = {}) {
     //---------------------------------------------
     // Route(s)
     //---------------------------------------------
-    
-    
+    app.get('/', (req, reply) => { reply.send({ 'hello': 'world!' }) });
+    app.register(routes.authRoute, { prefix: '/api/auth' });
+
+
     return app;
 }
 export default buildFastify;
