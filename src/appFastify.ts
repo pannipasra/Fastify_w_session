@@ -4,6 +4,8 @@ import fastifySession from '@fastify/session';
 
 import routes from './routes';
 
+import Redis from 'ioredis';
+import RedisStore from 'connect-redis';
 import { isHideInProduction } from '.';
 
 
@@ -12,6 +14,16 @@ function buildFastify(opts = {}) {
     // Initiate fastify
     //---------------------------------------------
     const app = fastify(opts);
+    const store = new RedisStore({
+        client: new Redis({
+            enableAutoPipelining: true,
+            port: 6379, // Redis port
+            host: "127.0.0.1", // Redis host
+            username: "default", // needs Redis >= 6
+            password: "1234",
+            db: 0, // Defaults to 0
+        })
+    });
     //---------------------------------------------
     // Error Handler Globally
     //---------------------------------------------
@@ -40,7 +52,8 @@ function buildFastify(opts = {}) {
             maxAge: 60 * 60 * 1 * 1000, // sec * min * hr * day * 1000
             secure: isHideInProduction ? isHideInProduction : false,
             sameSite: isHideInProduction ? 'none' : undefined
-        }
+        },
+        store
     })
     //---------------------------------------------
     // Route(s)
