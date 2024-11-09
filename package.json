@@ -14,12 +14,12 @@
   "dependencies": {
     "@sinclair/typebox": "^0.33.7",
     "dotenv": "^16.4.5",
-    "fastify": "^4.28.1"
+    "fastify": "^5.1.0",
+    "pino-pretty": "^12.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "nodemon": "^3.1.4",
-    "pino-pretty": "^11.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
