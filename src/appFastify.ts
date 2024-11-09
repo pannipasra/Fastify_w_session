@@ -1,5 +1,10 @@
 import fastify from 'fastify';
+import fastifyCookie from '@fastify/cookie';
+import fastifySession from '@fastify/session';
+
 import routes from './routes';
+
+import { isHideInProduction } from '.';
 
 
 function buildFastify(opts = {}) {
@@ -28,6 +33,15 @@ function buildFastify(opts = {}) {
     //---------------------------------------------
     // Plugin(s)
     //---------------------------------------------
+    app.register(fastifyCookie);
+    app.register(fastifySession, {
+        secret: "a secret with minimum length of 32 characters",
+        cookie: {
+            maxAge: 60 * 60 * 1 * 1000, // sec * min * hr * day * 1000
+            secure: isHideInProduction ? isHideInProduction : false,
+            sameSite: isHideInProduction ? 'none' : undefined
+        }
+    })
     //---------------------------------------------
     // Route(s)
     //---------------------------------------------
